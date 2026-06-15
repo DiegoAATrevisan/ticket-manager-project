@@ -1,0 +1,14 @@
+h:\GitHub\ticket-manager-project\ticket-manager\bin\Debug\net10.0\ticket-manager.exe
+h:\GitHub\ticket-manager-project\ticket-manager\bin\Debug\net10.0\ticket-manager.deps.json
+h:\GitHub\ticket-manager-project\ticket-manager\bin\Debug\net10.0\ticket-manager.runtimeconfig.json
+h:\GitHub\ticket-manager-project\ticket-manager\bin\Debug\net10.0\ticket-manager.dll
+h:\GitHub\ticket-manager-project\ticket-manager\bin\Debug\net10.0\ticket-manager.pdb
+h:\GitHub\ticket-manager-project\ticket-manager\obj\Debug\net10.0\ticket-manager.GeneratedMSBuildEditorConfig.editorconfig
+h:\GitHub\ticket-manager-project\ticket-manager\obj\Debug\net10.0\ticket-manager.AssemblyInfoInputs.cache
+h:\GitHub\ticket-manager-project\ticket-manager\obj\Debug\net10.0\ticket-manager.AssemblyInfo.cs
+h:\GitHub\ticket-manager-project\ticket-manager\obj\Debug\net10.0\ticket-manager.csproj.CoreCompileInputs.cache
+h:\GitHub\ticket-manager-project\ticket-manager\obj\Debug\net10.0\ticket-manager.dll
+h:\GitHub\ticket-manager-project\ticket-manager\obj\Debug\net10.0\refint\ticket-manager.dll
+h:\GitHub\ticket-manager-project\ticket-manager\obj\Debug\net10.0\ticket-manager.pdb
+h:\GitHub\ticket-manager-project\ticket-manager\obj\Debug\net10.0\ticket-manager.genruntimeconfig.cache
+h:\GitHub\ticket-manager-project\ticket-manager\obj\Debug\net10.0\ref\ticket-manager.dll

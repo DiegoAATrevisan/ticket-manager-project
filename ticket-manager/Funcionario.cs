@@ -1,4 +1,4 @@
-﻿class Funcionario
+﻿public class Funcionario
 {
     private string nome { get; set; }
     private string cpf { get; set; }
@@ -7,5 +7,11 @@
     {
         this.nome = nome;
         this.cpf = cpf;
+    }
+
+    public void Cadastrar(Funcionario funcionario)
+    {
+
+
     }
 }

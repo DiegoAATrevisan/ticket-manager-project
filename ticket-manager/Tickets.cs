@@ -1,4 +1,4 @@
-class Tickets
+public class Tickets
 {
     private int idFuncionario { get; set; }
     private int quantidade { get; set; }

@@ -1,11 +1,15 @@
-
-using Superpower;
-
 class SistemaFuncionario
 {
-    public async Task Sistema()
+    private readonly ServicoFuncionario servico;
+    public SistemaFuncionario(ServicoFuncionario servicoFuncionario)
     {
+        servico = servicoFuncionario;
+    }
+    public void Sistema()
+    {
+
         Boolean SysUp = true;
+
         ManejaQuestao maneja = new ManejaQuestao();
         while (SysUp)
         {
@@ -19,7 +23,7 @@ class SistemaFuncionario
             switch (opcao)
             {
                 case 1:
-                    await CadastrarFuncionario();
+                    CadastrarFuncionario();
                     break;
                 case 2:
                     EditarFuncionario();
@@ -33,21 +37,22 @@ class SistemaFuncionario
                     break;
             }
 
-            async Task CadastrarFuncionario()
+            void CadastrarFuncionario()
             {
                 string nome = maneja.Resposta("Digite o nome do funcionário:");
                 string cpf = maneja.Resposta("Digite o CPF do funcionário:");
 
                 Funcionario funcionario = new Funcionario(nome, cpf);
+
                 try
                 {
-                    await funcionario.CadastrarFuncionario(funcionario);
+                    servico.CadastrarFuncionario(funcionario);
                     Console.WriteLine($"Funcionário {nome}, com o CPF {cpf} cadastrado com sucesso!");
                 }
                 catch (System.Exception ex)
                 {
-                    Console.WriteLine("Aconteceu um erro inesperado favor tente novamente.");
-                    Console.WriteLine("A mensagem de erro foi: " + ex.Message);
+                    Console.WriteLine("Aconteceu um erro inesperado favor tente novamente. SistemaFuncionario");
+                    Console.WriteLine("A mensagem de erro foi: " + ex.InnerException);
                     throw;
                 }
 
@@ -56,10 +61,10 @@ class SistemaFuncionario
             void EditarFuncionario()
             {
                 int id = int.Parse(maneja.Resposta("Insira o id do funcionário:"));
-                Funcionario funcionario = Funcionario.BuscarFuncionario(id);
+                Funcionario funcionario = servico.BuscarFuncionario(id);
                 if (funcionario != null)
                 {
-                    funcionario.Editar(id);
+                    servico.Editar(id);
                 }
                 else
                 {
@@ -69,4 +74,5 @@ class SistemaFuncionario
 
         }
     }
+
 }

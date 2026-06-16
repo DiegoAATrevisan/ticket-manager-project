@@ -13,6 +13,12 @@
         this.cpf = cpf;
     }
 
+    public static Funcionario BuscarFuncionario(int id)
+    {
+        AppDbContext db = new AppDbContext();
+        return db.funcionarios.Find(id);
+    }
+
     public async Task Cadastrar(Funcionario funcionario)
     {
         try

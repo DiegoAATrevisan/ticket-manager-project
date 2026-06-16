@@ -1,3 +1,4 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.320.0
@@ -6,16 +7,42 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ticket-manager-project", "t
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ticket-manager", "h:\GitHub\ticket-manager-project\ticket-manager\ticket-manager.csproj", "{1B0FBC93-35A8-777C-F444-B42B717B79E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketManagerWeb", "TicketManagerWeb\TicketManagerWeb.csproj", "{45608B32-ADDD-4E5E-88F4-BE6BD51B7A4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1B0FBC93-35A8-777C-F444-B42B717B79E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1B0FBC93-35A8-777C-F444-B42B717B79E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B0FBC93-35A8-777C-F444-B42B717B79E2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1B0FBC93-35A8-777C-F444-B42B717B79E2}.Debug|x64.Build.0 = Debug|Any CPU
+		{1B0FBC93-35A8-777C-F444-B42B717B79E2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1B0FBC93-35A8-777C-F444-B42B717B79E2}.Debug|x86.Build.0 = Debug|Any CPU
 		{1B0FBC93-35A8-777C-F444-B42B717B79E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B0FBC93-35A8-777C-F444-B42B717B79E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B0FBC93-35A8-777C-F444-B42B717B79E2}.Release|x64.ActiveCfg = Release|Any CPU
+		{1B0FBC93-35A8-777C-F444-B42B717B79E2}.Release|x64.Build.0 = Release|Any CPU
+		{1B0FBC93-35A8-777C-F444-B42B717B79E2}.Release|x86.ActiveCfg = Release|Any CPU
+		{1B0FBC93-35A8-777C-F444-B42B717B79E2}.Release|x86.Build.0 = Release|Any CPU
+		{45608B32-ADDD-4E5E-88F4-BE6BD51B7A4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45608B32-ADDD-4E5E-88F4-BE6BD51B7A4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45608B32-ADDD-4E5E-88F4-BE6BD51B7A4A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{45608B32-ADDD-4E5E-88F4-BE6BD51B7A4A}.Debug|x64.Build.0 = Debug|Any CPU
+		{45608B32-ADDD-4E5E-88F4-BE6BD51B7A4A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{45608B32-ADDD-4E5E-88F4-BE6BD51B7A4A}.Debug|x86.Build.0 = Debug|Any CPU
+		{45608B32-ADDD-4E5E-88F4-BE6BD51B7A4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45608B32-ADDD-4E5E-88F4-BE6BD51B7A4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45608B32-ADDD-4E5E-88F4-BE6BD51B7A4A}.Release|x64.ActiveCfg = Release|Any CPU
+		{45608B32-ADDD-4E5E-88F4-BE6BD51B7A4A}.Release|x64.Build.0 = Release|Any CPU
+		{45608B32-ADDD-4E5E-88F4-BE6BD51B7A4A}.Release|x86.ActiveCfg = Release|Any CPU
+		{45608B32-ADDD-4E5E-88F4-BE6BD51B7A4A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,9 +1,19 @@
 using DotNetEnv;
-Env.Load();
+
 class Sistema
 {
     static void Main(string[] args)
     {
+        string envPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", ".env");
+        envPath = Path.GetFullPath(envPath);
+        
+        if (!File.Exists(envPath))
+        {
+            Console.WriteLine($"Arquivo .env não encontrado em: {envPath}");
+        }
+        
+        Env.Load(envPath);
+        
         SistemaFuncionario sistemaFuncionario = new SistemaFuncionario();
         SistemaTickets sistemaTickets = new SistemaTickets();
 

@@ -31,7 +31,37 @@ class SistemaTickets
                     Console.WriteLine("Opção inválida, tente novamente.");
                     break;
             }
+            void CadastrarTicket()
+            {
+                int idFuncionario = int.Parse(maneja.Resposta("Digite o id do funcionário responsável pelo ticket:"));
+                int quantidade = int.Parse(maneja.Resposta("Digite a quantidade de tickets:"));
 
+                Tickets ticket = new Tickets(idFuncionario, quantidade);
+                try
+                {
+                    ticket.Cadastrar(ticket);
+                    Console.WriteLine($"Ticket cadastrado com sucesso para o funcionário {idFuncionario}!");
+                }
+                catch (System.Exception)
+                {
+                    Console.WriteLine("Aconteceu um erro inesperado favor tente novamente.");
+                    throw;
+                }
+            }
+
+            void EditarTicket()
+            {
+                int id = int.Parse(maneja.Resposta("Insira o id do ticket:"));
+                Tickets ticket = Tickets.BuscarTicket(id);
+                if (ticket != null)
+                {
+                    ticket.Editar(id);
+                }
+                else
+                {
+                    Console.WriteLine("Ticket não encontrado.");
+                }
+            }
 
 
         }

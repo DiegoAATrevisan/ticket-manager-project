@@ -1,0 +1,114 @@
+@page "/tickets"
+@rendermode InteractiveServer
+@inject ServicoTicket ServicoTicketService
+
+<h3>Tickets</h3>
+
+<div class="mb-4">
+    <h5>Cadastrar</h5>
+    <input class="form-control mb-2" type="number" placeholder="Id do funcionário" @bind="IdFuncionario" />
+    <input class="form-control mb-2" type="number" placeholder="Quantidade" @bind="Quantidade" />
+    <button class="btn btn-primary" @onclick="CadastrarTicketAsync">Cadastrar</button>
+</div>
+
+<div class="mb-4">
+    <h5>Buscar para edição</h5>
+    <input class="form-control mb-2" type="number" placeholder="Id do ticket" @bind="IdBusca" />
+    <button class="btn btn-secondary" @onclick="CarregarTicketAsync">Carregar</button>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Mensagem))
+{
+    <div class="alert alert-info">@Mensagem</div>
+}
+
+@if (TicketEditando is not null)
+{
+    <div class="mb-4">
+        <h5>Editar</h5>
+        <input class="form-control mb-2" type="number" placeholder="Id do funcionário" @bind="IdFuncionarioEdicao" />
+        <input class="form-control mb-2" type="number" placeholder="Quantidade" @bind="QuantidadeEdicao" />
+        <button class="btn btn-success" @onclick="SalvarEdicaoAsync">Salvar edição</button>
+    </div>
+}
+
+@code {
+    private int IdFuncionario;
+    private int Quantidade;
+    private int IdBusca;
+    private int IdFuncionarioEdicao;
+    private int QuantidadeEdicao;
+    private string Mensagem = string.Empty;
+
+    private Tickets? TicketEditando;
+
+    private Task CadastrarTicketAsync()
+    {
+        try
+        {
+            @* var ticket = new Tickets(IdFuncionario, Quantidade);
+            ServicoTicketService.CadastrarTicket(ticket); *@
+            Mensagem = $"Ticket cadastrado com sucesso para o funcionário {IdFuncionario}.";
+            IdFuncionario = 0;
+            Quantidade = 0;
+        }
+        catch (Exception ex)
+        {
+            Mensagem = $"Erro ao cadastrar ticket: {ex.Message}";
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private Task CarregarTicketAsync()
+    {
+        try
+        {
+            @* TicketEditando = ServicoTicketService.BuscarTicket(IdBusca); *@
+
+            if (TicketEditando is null)
+            {
+                Mensagem = "Ticket não encontrado.";
+                IdFuncionarioEdicao = 0;
+                QuantidadeEdicao = 0;
+                return Task.CompletedTask;
+            }
+
+            IdFuncionarioEdicao = TicketEditando.IdFuncionario;
+            QuantidadeEdicao = TicketEditando.Quantidade;
+            Mensagem = "Ticket carregado para edição.";
+        }
+        catch (Exception ex)
+        {
+            Mensagem = $"Erro ao buscar ticket: {ex.Message}";
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private Task SalvarEdicaoAsync()
+    {
+        try
+        {
+            if (TicketEditando is null)
+            {
+                Mensagem = "Nenhum ticket carregado.";
+                return Task.CompletedTask;
+            }
+
+            TicketEditando.IdFuncionario = IdFuncionarioEdicao;
+            TicketEditando.Quantidade = QuantidadeEdicao;
+
+            // Este método precisa existir no serviço do projeto original.
+            @* ServicoTicketService.AtualizarTicket(TicketEditando); *@
+
+            Mensagem = "Ticket atualizado com sucesso.";
+        }
+        catch (Exception ex)
+        {
+            Mensagem = $"Erro ao editar ticket: {ex.Message}";
+        }
+
+        return Task.CompletedTask;
+    }
+}

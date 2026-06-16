@@ -1,0 +1,113 @@
+@page "/funcionarios"
+@rendermode InteractiveServer
+@inject ServicoFuncionario ServicoFuncionarioService
+
+<h3>Funcionários</h3>
+
+<div class="mb-4">
+    <h5>Cadastrar</h5>
+    <input class="form-control mb-2" placeholder="Nome" @bind="Nome" />
+    <input class="form-control mb-2" placeholder="CPF" @bind="Cpf" />
+    <button class="btn btn-primary" @onclick="CadastrarFuncionarioAsync">Cadastrar</button>
+</div>
+
+<div class="mb-4">
+    <h5>Buscar para edição</h5>
+    <input class="form-control mb-2" type="number" placeholder="Id" @bind="IdBusca" />
+    <button class="btn btn-secondary" @onclick="CarregarFuncionarioAsync">Carregar</button>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Mensagem))
+{
+    <div class="alert alert-info">@Mensagem</div>
+}
+
+@if (FuncionarioEditando is not null)
+{
+    <div class="mb-4">
+        <h5>Editar</h5>
+        <input class="form-control mb-2" placeholder="Nome" @bind="NomeEdicao" />
+        <input class="form-control mb-2" placeholder="CPF" @bind="CpfEdicao" />
+        <button class="btn btn-success" @onclick="SalvarEdicaoAsync">Salvar edição</button>
+    </div>
+}
+
+@code {
+    private string Nome = string.Empty;
+    private string Cpf = string.Empty;
+    private int IdBusca;
+    private string NomeEdicao = string.Empty;
+    private string CpfEdicao = string.Empty;
+    private string Mensagem = string.Empty;
+
+    private Funcionario? FuncionarioEditando;
+
+    private Task CadastrarFuncionarioAsync()
+    {
+        try
+        {
+            var funcionario = new Funcionario(Nome, Cpf);
+            ServicoFuncionarioService.CadastrarFuncionario(funcionario);
+            Mensagem = $"Funcionário {Nome} cadastrado com sucesso.";
+            Nome = string.Empty;
+            Cpf = string.Empty;
+        }
+        catch (Exception ex)
+        {
+            Mensagem = $"Erro ao cadastrar funcionário: {ex.Message}";
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private Task CarregarFuncionarioAsync()
+    {
+        try
+        {
+            FuncionarioEditando = ServicoFuncionarioService.BuscarFuncionario(IdBusca);
+
+            if (FuncionarioEditando is null)
+            {
+                Mensagem = "Funcionário não encontrado.";
+                NomeEdicao = string.Empty;
+                CpfEdicao = string.Empty;
+                return Task.CompletedTask;
+            }
+
+            NomeEdicao = FuncionarioEditando.Nome;
+            CpfEdicao = FuncionarioEditando.Cpf;
+            Mensagem = "Funcionário carregado para edição.";
+        }
+        catch (Exception ex)
+        {
+            Mensagem = $"Erro ao buscar funcionário: {ex.Message}";
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private Task SalvarEdicaoAsync()
+    {
+        try
+        {
+            if (FuncionarioEditando is null)
+            {
+                Mensagem = "Nenhum funcionário carregado.";
+                return Task.CompletedTask;
+            }
+
+            FuncionarioEditando.Nome = NomeEdicao;
+            FuncionarioEditando.Cpf = CpfEdicao;
+
+            ServicoFuncionarioService.Editar(FuncionarioEditando.Id);
+
+            Mensagem = "Funcionário atualizado com sucesso.";
+        }
+        catch (Exception ex)
+        {
+            Mensagem = $"Erro ao editar funcionário: {ex.Message}";
+        }
+
+        return Task.CompletedTask;
+    }
+}

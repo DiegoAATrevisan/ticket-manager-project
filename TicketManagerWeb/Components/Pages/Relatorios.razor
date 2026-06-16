@@ -1,0 +1,18 @@
+@page "/relatorios"
+@rendermode InteractiveServer
+@using TicketManagerWeb.Models
+
+<h3>@Model.Titulo</h3>
+
+<p>Área reservada para relatórios futuros.</p>
+
+<ul class="list-group">
+    @foreach (var item in Model.Opcoes)
+    {
+        <li class="list-group-item">@item</li>
+    }
+</ul>
+
+@code {
+    private RelatorioViewModel Model = new();
+}

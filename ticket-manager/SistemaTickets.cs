@@ -2,6 +2,12 @@ using Superpower;
 
 class SistemaTickets
 {
+
+    private readonly ServicoTicket servico;
+    public SistemaTickets(ServicoTicket servicoTicket)
+    {
+        servico = servicoTicket;
+    }
     public void Sistema()
     {
         Boolean SysUp = true;
@@ -39,12 +45,13 @@ class SistemaTickets
                 Tickets ticket = new Tickets(idFuncionario, quantidade);
                 try
                 {
-                    ticket.CadastrarTicket(ticket);
+                    servico.CadastrarTicket(ticket);
                     Console.WriteLine($"Ticket cadastrado com sucesso para o funcionário {idFuncionario}!");
                 }
                 catch (System.Exception)
                 {
-                    Console.WriteLine("Aconteceu um erro inesperado favor tente novamente.");
+                    Console.WriteLine("Aconteceu um erro inesperado favor tente novamente. SistemaTickets");
+
                     throw;
                 }
             }
@@ -52,10 +59,10 @@ class SistemaTickets
             void EditarTicket()
             {
                 int id = int.Parse(maneja.Resposta("Insira o id do ticket:"));
-                Tickets ticket = Tickets.BuscarTicket(id);
+                Tickets ticket = servico.BuscarTicket(id);
                 if (ticket != null)
                 {
-                    ticket.Editar(id);
+                    servico.Editar(id);
                 }
                 else
                 {

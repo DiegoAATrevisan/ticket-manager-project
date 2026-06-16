@@ -39,7 +39,7 @@ class SistemaTickets
                 Tickets ticket = new Tickets(idFuncionario, quantidade);
                 try
                 {
-                    ticket.Cadastrar(ticket);
+                    ticket.CadastrarTicket(ticket);
                     Console.WriteLine($"Ticket cadastrado com sucesso para o funcionário {idFuncionario}!");
                 }
                 catch (System.Exception)

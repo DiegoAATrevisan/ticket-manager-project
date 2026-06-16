@@ -5,6 +5,7 @@ class Sistema
     static void Main(string[] args)
     {
         SistemaFuncionario sistemaFuncionario = new SistemaFuncionario();
+        SistemaTickets sistemaTickets = new SistemaTickets();
 
         Boolean SysUp = true;
 
@@ -24,7 +25,7 @@ class Sistema
                     sistemaFuncionario.Sistema();
                     break;
                 case 2:
-                    // MenuTickets.MenuTickets();
+                    sistemaTickets.Sistema();
                     break;
                 case 3:
                     // MenuRelatorios.MenuRelatorios();

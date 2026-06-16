@@ -3,7 +3,7 @@ using Superpower;
 
 class SistemaFuncionario
 {
-    public void Sistema()
+    public async Task Sistema()
     {
         Boolean SysUp = true;
         ManejaQuestao maneja = new ManejaQuestao();
@@ -19,7 +19,7 @@ class SistemaFuncionario
             switch (opcao)
             {
                 case 1:
-                    CadastrarFuncionario();
+                    await CadastrarFuncionario();
                     break;
                 case 2:
                     EditarFuncionario();
@@ -33,7 +33,7 @@ class SistemaFuncionario
                     break;
             }
 
-            void CadastrarFuncionario()
+            async Task CadastrarFuncionario()
             {
                 string nome = maneja.Resposta("Digite o nome do funcionário:");
                 string cpf = maneja.Resposta("Digite o CPF do funcionário:");
@@ -41,12 +41,13 @@ class SistemaFuncionario
                 Funcionario funcionario = new Funcionario(nome, cpf);
                 try
                 {
-                    funcionario.Cadastrar(funcionario);
+                    await funcionario.CadastrarFuncionario(funcionario);
                     Console.WriteLine($"Funcionário {nome}, com o CPF {cpf} cadastrado com sucesso!");
                 }
-                catch (System.Exception)
+                catch (System.Exception ex)
                 {
                     Console.WriteLine("Aconteceu um erro inesperado favor tente novamente.");
+                    Console.WriteLine("A mensagem de erro foi: " + ex.Message);
                     throw;
                 }
 

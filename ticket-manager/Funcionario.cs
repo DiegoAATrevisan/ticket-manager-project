@@ -1,25 +1,28 @@
 ﻿public class Funcionario
 {
     ManejaQuestao maneja = new ManejaQuestao();
-    AppDbContext db = new AppDbContext();
-    private int id { get; set; }
-    private string nome { get; set; }
-    private string cpf { get; set; }
-    private char situacao { get; set; }
+    static AppDbContext db = new AppDbContext();
+    public int Id { get; set; }
+
+    public string Nome { get; set; }
+    public string Cpf { get; set; }
+    public char Situacao { get; set; }
+
+    public Funcionario() { }
 
     public Funcionario(string nome, string cpf)
     {
-        this.nome = nome;
-        this.cpf = cpf;
+        Nome = nome;
+        Cpf = cpf;
     }
 
     public static Funcionario BuscarFuncionario(int id)
     {
-        AppDbContext db = new AppDbContext();
-        return db.funcionarios.Find(id);
+        Funcionario funcionario = db.funcionarios.Find(id);
+        return funcionario ;
     }
 
-    public async Task Cadastrar(Funcionario funcionario)
+    public async Task CadastrarFuncionario(Funcionario funcionario)
     {
         try
         {
@@ -45,7 +48,7 @@
                 throw new Exception("Não foi possivel encontrar esse usuario na base de dados, verifique o ID forncido.");
             }
 
-            Console.WriteLine($"Funcionário encontrado: {funcionario.nome} - {funcionario.cpf}");
+            Console.WriteLine($"Funcionário encontrado: {funcionario.Nome} - {funcionario.Cpf}");
             Console.WriteLine("Digite 1 para editar o nome do funcionário");
             Console.WriteLine("Digite 2 para editar o CPF do funcionário");
             Console.WriteLine("Digite 3 para editar a situação do funcionário");
@@ -55,15 +58,15 @@
             switch (opcao)
             {
                 case 1:
-                    funcionario.nome = maneja.Resposta("Digite o novo nome do funcionário:");
+                    funcionario.Nome = maneja.Resposta("Digite o novo nome do funcionário:");
                     db.SaveChanges();
                     break;
                 case 2:
-                    funcionario.nome = maneja.Resposta("Digite o novo CPF do funcionário:");
+                    funcionario.Nome = maneja.Resposta("Digite o novo CPF do funcionário:");
                     db.SaveChanges();
                     break;
                 case 3:
-                    funcionario.nome = maneja.Resposta("Digite a nova situação do funcionário (A para ativo, I para inativo):");
+                    funcionario.Situacao = Char.Parse(maneja.Resposta("Digite a nova situação do funcionário (A para ativo, I para inativo):"));
                     db.SaveChanges();
                     break;
                 case 4:

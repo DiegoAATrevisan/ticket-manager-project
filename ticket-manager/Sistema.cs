@@ -1,22 +1,55 @@
 using DotNetEnv;
+using Microsoft.Extensions.DependencyInjection;
 
-class Sistema
+class SistemaManejoTickets
 {
+    private readonly SistemaFuncionario sistemaFuncionario;
+    private readonly SistemaTickets sistemaTickets;
+
+    public SistemaManejoTickets(SistemaFuncionario _sistemaFuncionario, SistemaTickets _sistemaTickets)
+    {
+        sistemaFuncionario = _sistemaFuncionario;
+        sistemaTickets = _sistemaTickets;
+    }
+
     static void Main(string[] args)
     {
         string envPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", ".env");
         envPath = Path.GetFullPath(envPath);
-        
+
         if (!File.Exists(envPath))
         {
             Console.WriteLine($"Arquivo .env não encontrado em: {envPath}");
         }
-        
-        Env.Load(envPath);
-        
-        SistemaFuncionario sistemaFuncionario = new SistemaFuncionario();
-        SistemaTickets sistemaTickets = new SistemaTickets();
 
+        Env.Load(envPath);
+
+        // Configurar o container de DI
+        var services = new ServiceCollection();
+
+        // Registrar DbContext
+        services.AddDbContext<AppDbContext>();
+
+        // Registrar Serviços
+        services.AddScoped<ServicoFuncionario>();
+        services.AddScoped<ServicoTicket>();
+
+        // Registrar Sistemas
+        services.AddScoped<SistemaFuncionario>();
+        services.AddScoped<SistemaTickets>();
+
+        // Registrar o sistema principal
+        services.AddScoped<SistemaManejoTickets>();
+
+        var serviceProvider = services.BuildServiceProvider();
+
+        // Resolver a instância do sistema principal
+        var sistema = serviceProvider.GetRequiredService<SistemaManejoTickets>();
+        sistema.Executar();
+    }
+
+    public void Executar()
+    {
         Boolean SysUp = true;
 
         while (SysUp)

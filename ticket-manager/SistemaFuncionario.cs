@@ -1,4 +1,6 @@
 
+using Superpower;
+
 class SistemaFuncionario
 {
     public void Sistema()
@@ -9,6 +11,7 @@ class SistemaFuncionario
         {
             Console.WriteLine("Selecione a operação:");
             Console.WriteLine("Digite 1 para cadastrar novo funcionário");
+            Console.WriteLine("Digite 2 para editar um funcionário");
             Console.WriteLine("Para voltar digite 3");
 
             int opcao = int.Parse(Console.ReadLine());
@@ -19,7 +22,7 @@ class SistemaFuncionario
                     CadastrarFuncionario();
                     break;
                 case 2:
-                    // MenuClientes.MenuClientes();
+                    EditarFuncionario();
                     break;
                 case 3:
                     SysUp = false;
@@ -47,6 +50,20 @@ class SistemaFuncionario
                     throw;
                 }
 
+            }
+
+            void EditarFuncionario()
+            {
+                int id = int.Parse(maneja.Resposta("Insira o id do funcionário:"));
+                Funcionario funcionario = Funcionario.BuscarFuncionario(id);
+                if (funcionario != null)
+                {
+                    funcionario.Editar(id);
+                }
+                else
+                {
+                    Console.WriteLine("Funcionário não encontrado.");
+                }
             }
 
         }

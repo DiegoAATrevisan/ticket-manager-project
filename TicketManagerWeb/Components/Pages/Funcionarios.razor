@@ -46,7 +46,7 @@
     {
         try
         {
-            var funcionario = new Funcionario(Nome, Cpf);
+            Funcionario funcionario = new Funcionario(Nome, Cpf);
             ServicoFuncionarioService.CadastrarFuncionario(funcionario);
             Mensagem = $"Funcionário {Nome} cadastrado com sucesso.";
             Nome = string.Empty;

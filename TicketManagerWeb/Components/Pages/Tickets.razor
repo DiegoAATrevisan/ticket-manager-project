@@ -5,8 +5,15 @@
 <h3>Tickets</h3>
 
 <div class="mb-4">
-    <h5>Buscar por funcionário</h5>
-    <input class="form-control mb-2" type="number" placeholder="Id do funcionário" @bind="IdFuncionarioBusca" />
+    <h5>Cadastrar</h5>
+    <input class="form-control mb-2" type="number" placeholder="Quantidade" @bind="QuantidadeCadastro" />
+    <input class="form-control mb-2" type="text" placeholder="CPF do funcionário" @bind="CpfCadastro" />
+    <button class="btn btn-primary" @onclick="CadastrarTicketAsync">Cadastrar</button>
+</div>
+
+<div class="mb-4">
+    <h5>Buscar tickets por CPF</h5>
+    <input class="form-control mb-2" type="text" placeholder="CPF do funcionário" @bind="CpfBusca" />
     <button class="btn btn-secondary" @onclick="CarregarTicketsAsync">Buscar</button>
 </div>
 
@@ -20,21 +27,17 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Id Funcionário</th>
                 <th>Quantidade</th>
-                <th>Situação</th>
+                <th>Data Cadastro</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var ticket in tickets)
+            @foreach (Ticket ticket in tickets)
             {
                 <tr>
-                    <td>@ticket.Id</td>
-                    <td>@ticket.IdFuncionario</td>
                     <td>@ticket.Quantidade</td>
-                    <td>@ticket.Situacao</td>
+                    <td>@ticket.DataCadastro.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss")</td>
                     <td>
                         <button class="btn btn-sm btn-primary" @onclick="() => PrepararEdicao(ticket)">Editar</button>
                     </td>
@@ -48,32 +51,53 @@
 {
     <div class="mb-4">
         <h5>Editar ticket</h5>
-        <input class="form-control mb-2" type="number" placeholder="Id do funcionário" @bind="IdFuncionarioEdicao" />
         <input class="form-control mb-2" type="number" placeholder="Quantidade" @bind="QuantidadeEdicao" />
-        <input class="form-control mb-2" maxlength="1" placeholder="Situação" @bind="SituacaoEdicao" />
-
+        <input class="form-control mb-2" type="text" placeholder="CPF do funcionário" @bind="CpfEdicao" />
         <button class="btn btn-success" @onclick="SalvarEdicaoAsync">Salvar edição</button>
     </div>
 }
 
 @code {
-    private int IdFuncionarioBusca;
+    private int QuantidadeCadastro;
+    private string CpfCadastro = string.Empty;
+
+    private string CpfBusca = string.Empty;
     private string Mensagem = string.Empty;
-    private List<Ticket> tickets = new List<Ticket>();
+    private List<Ticket> tickets = new();
 
     private Ticket? TicketEditando;
-    private int IdFuncionarioEdicao;
     private int QuantidadeEdicao;
-    private char SituacaoEdicao = 'A';
+    private string CpfEdicao = string.Empty;
+
+    private async Task CadastrarTicketAsync()
+    {
+        try
+        {
+            Ticket ticket = new Ticket
+            {
+                Quantidade = QuantidadeCadastro
+            };
+
+            await ServicoTicketService.CadastrarTicket(ticket, CpfCadastro);
+
+            Mensagem = "Ticket cadastrado com sucesso.";
+            QuantidadeCadastro = 0;
+            CpfCadastro = string.Empty;
+        }
+        catch (Exception ex)
+        {
+            Mensagem = $"Erro ao cadastrar ticket: {ex.Message}";
+        }
+    }
 
     private Task CarregarTicketsAsync()
     {
         try
         {
-            tickets = ServicoTicketService.BuscarListaTickets(IdFuncionarioBusca);
+            tickets = ServicoTicketService.BuscarListaTicketsPorCpf(CpfBusca);
 
             Mensagem = tickets.Count > 0
-                ? $"Encontrado(s) {tickets.Count} ticket(s) para o funcionário {IdFuncionarioBusca}."
+                ? $"Encontrado(s) {tickets.Count} ticket(s) para o CPF informado."
                 : "Nenhum ticket encontrado.";
         }
         catch (Exception ex)
@@ -88,9 +112,8 @@
     private void PrepararEdicao(Ticket ticket)
     {
         TicketEditando = ticket;
-        IdFuncionarioEdicao = ticket.IdFuncionario;
         QuantidadeEdicao = ticket.Quantidade;
-        SituacaoEdicao = ticket.Situacao;
+        CpfEdicao = string.Empty;
         Mensagem = $"Ticket {ticket.Id} carregado para edição.";
     }
 
@@ -104,17 +127,13 @@
                 return Task.CompletedTask;
             }
 
-            var dataCadastroAtual = DateTime.Now;
-
             ServicoTicketService.Editar(
                 TicketEditando.Id,
-                IdFuncionarioEdicao,
                 QuantidadeEdicao,
-                SituacaoEdicao,
-                dataCadastroAtual
+                CpfEdicao
             );
 
-            Mensagem = $"Ticket atualizado em {dataCadastroAtual:dd/MM/yyyy HH:mm:ss}.";
+            Mensagem = "Ticket atualizado com sucesso.";
             TicketEditando = null;
 
             return CarregarTicketsAsync();

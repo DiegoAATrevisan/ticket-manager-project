@@ -1,18 +1,71 @@
 @page "/relatorios"
 @rendermode InteractiveServer
-@using TicketManagerWeb.Models
+@inject ServicoRelatorio ServicoRelatorioService
 
-<h3>@Model.Titulo</h3>
+<h3>Relatórios</h3>
 
-<p>Área reservada para relatórios futuros.</p>
+<div class="mb-4">
+    <h5>Filtros</h5>
+    <input class="form-control mb-2" type="text" placeholder="Nome do funcionário" @bind="NomeBusca" />
+    <input class="form-control mb-2" type="text" placeholder="CPF do funcionário" @bind="CpfBusca" />
 
-<ul class="list-group">
-    @foreach (var item in Model.Opcoes)
-    {
-        <li class="list-group-item">@item</li>
-    }
-</ul>
+    <label class="form-label">Data Inicial</label>
+    <input class="form-control mb-2" type="date" @bind="DataInicialBusca" />
+
+    <label class="form-label">Data Final</label>
+    <input class="form-control mb-2" type="date" @bind="DataFinalBusca" />
+
+    <button class="btn btn-primary" @onclick="GerarRelatorioAsync">Gerar relatório</button>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Mensagem))
+{
+    <div class="alert alert-info">@Mensagem</div>
+}
+
+@if (tickets.Count > 0)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Quantidade</th>
+                <th>Nome do Funcionário</th>
+                <th>CPF do Funcionário</th>
+                <th>Data Cadastro</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ticket in tickets)
+            {
+                <tr>
+                    <td>@ticket.Quantidade</td>
+                    <td>@ticket.NomeFuncionario</td>
+                    <td>@ticket.CpfFuncionario</td>
+                    <td>@ticket.DataCadastro.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 @code {
-    private RelatorioViewModel Model = new();
+    private string NomeBusca = string.Empty;
+    private string CpfBusca = string.Empty;
+    private DateTime? DataInicialBusca;
+    private DateTime? DataFinalBusca;
+
+    private string Mensagem = string.Empty;
+    private List<RelatorioTicketItem> tickets = new();
+
+    private Task GerarRelatorioAsync()
+    {
+        tickets = ServicoRelatorioService.FazerRelatorio(
+            NomeBusca,
+            CpfBusca,
+            DataInicialBusca,
+            DataFinalBusca
+        );
+
+        return Task.CompletedTask;
+    }
 }

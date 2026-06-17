@@ -4,7 +4,7 @@ using DotNetEnv;
 public class AppDbContext : DbContext
 {
     public DbSet<Funcionario> funcionarios => Set<Funcionario>();
-    public DbSet<Tickets> tickets => Set<Tickets>();
+    public DbSet<Ticket> tickets => Set<Ticket>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -48,7 +48,7 @@ public class AppDbContext : DbContext
                 .ValueGeneratedOnAdd();
         });
 
-        modelBuilder.Entity<Tickets>(entity =>
+        modelBuilder.Entity<Ticket>(entity =>
         {
             entity.ToTable("tickets");
 

@@ -305,11 +305,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "H:\\GitHub\\ticket-manager-project\\TicketManagerWeb\\TicketManagerWeb.csproj",
+      "projectUniqueName": "h:\\GitHub\\ticket-manager-project\\TicketManagerWeb\\TicketManagerWeb.csproj",
       "projectName": "TicketManagerWeb",
-      "projectPath": "H:\\GitHub\\ticket-manager-project\\TicketManagerWeb\\TicketManagerWeb.csproj",
+      "projectPath": "h:\\GitHub\\ticket-manager-project\\TicketManagerWeb\\TicketManagerWeb.csproj",
       "packagesPath": "C:\\Users\\Diego\\.nuget\\packages\\",
-      "outputPath": "H:\\GitHub\\ticket-manager-project\\TicketManagerWeb\\obj\\",
+      "outputPath": "h:\\GitHub\\ticket-manager-project\\TicketManagerWeb\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Diego\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -325,8 +325,8 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "H:\\GitHub\\ticket-manager-project\\ticket-manager\\ticket-manager.csproj": {
-              "projectPath": "H:\\GitHub\\ticket-manager-project\\ticket-manager\\ticket-manager.csproj"
+            "h:\\GitHub\\ticket-manager-project\\ticket-manager\\ticket-manager.csproj": {
+              "projectPath": "h:\\GitHub\\ticket-manager-project\\ticket-manager\\ticket-manager.csproj"
             }
           }
         }

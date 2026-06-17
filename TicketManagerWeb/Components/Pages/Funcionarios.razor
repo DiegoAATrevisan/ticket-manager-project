@@ -1,6 +1,6 @@
 @page "/funcionarios"
 @rendermode InteractiveServer
-@inject ServicoFuncionario ServicoFuncionarioService
+@inject ServicoFuncionario ServicoFuncionario
 
 <h3>Funcionários</h3>
 
@@ -13,7 +13,9 @@
 
 <div class="mb-4">
     <h5>Buscar para edição</h5>
-    <input class="form-control mb-2" type="number" placeholder="Id" @bind="IdBusca" />
+    <input class="form-control mb-2" type="number" placeholder="ID" @bind="IdBusca" />
+    <input class="form-control mb-2" type="text" placeholder="Nome" @bind="NomeBusca" />
+    <input class="form-control mb-2" type="text" placeholder="CPF" @bind="CpfBusca" />
     <button class="btn btn-secondary" @onclick="CarregarFuncionarioAsync">Carregar</button>
 </div>
 
@@ -28,6 +30,8 @@
         <h5>Editar</h5>
         <input class="form-control mb-2" placeholder="Nome" @bind="NomeEdicao" />
         <input class="form-control mb-2" placeholder="CPF" @bind="CpfEdicao" />
+        <input class="form-control mb-2" maxlength="1" placeholder="Situação" @bind="SituacaoEdicao" />
+
         <button class="btn btn-success" @onclick="SalvarEdicaoAsync">Salvar edição</button>
     </div>
 }
@@ -35,19 +39,25 @@
 @code {
     private string Nome = string.Empty;
     private string Cpf = string.Empty;
-    private int IdBusca;
+
+    private int? IdBusca;
+    private string NomeBusca = string.Empty;
+    private string CpfBusca = string.Empty;
+
     private string NomeEdicao = string.Empty;
     private string CpfEdicao = string.Empty;
-    private string Mensagem = string.Empty;
+    private char SituacaoEdicao = 'A';
 
+    private string Mensagem = string.Empty;
     private Funcionario? FuncionarioEditando;
 
     private Task CadastrarFuncionarioAsync()
     {
         try
         {
-            Funcionario funcionario = new Funcionario(Nome, Cpf);
-            ServicoFuncionarioService.CadastrarFuncionario(funcionario);
+            var funcionario = new Funcionario(Nome, Cpf);
+            ServicoFuncionario.CadastrarFuncionario(funcionario);
+
             Mensagem = $"Funcionário {Nome} cadastrado com sucesso.";
             Nome = string.Empty;
             Cpf = string.Empty;
@@ -64,18 +74,20 @@
     {
         try
         {
-            FuncionarioEditando = ServicoFuncionarioService.BuscarFuncionario(IdBusca);
+            FuncionarioEditando = ServicoFuncionario.BuscarFuncionario(IdBusca, NomeBusca, CpfBusca);
 
             if (FuncionarioEditando is null)
             {
                 Mensagem = "Funcionário não encontrado.";
                 NomeEdicao = string.Empty;
                 CpfEdicao = string.Empty;
+                SituacaoEdicao = 'A';
                 return Task.CompletedTask;
             }
 
             NomeEdicao = FuncionarioEditando.Nome;
             CpfEdicao = FuncionarioEditando.Cpf;
+            SituacaoEdicao = FuncionarioEditando.Situacao;
             Mensagem = "Funcionário carregado para edição.";
         }
         catch (Exception ex)
@@ -96,10 +108,12 @@
                 return Task.CompletedTask;
             }
 
-            FuncionarioEditando.Nome = NomeEdicao;
-            FuncionarioEditando.Cpf = CpfEdicao;
-
-            ServicoFuncionarioService.Editar(FuncionarioEditando.Id);
+            ServicoFuncionario.Editar(
+                FuncionarioEditando.Id,
+                NomeEdicao,
+                CpfEdicao,
+                SituacaoEdicao
+            );
 
             Mensagem = "Funcionário atualizado com sucesso.";
         }

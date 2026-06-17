@@ -1,6 +1,5 @@
 public class ServicoTicket
 {
-
     ManejaQuestao maneja = new ManejaQuestao();
 
     private readonly AppDbContext _db;
@@ -37,7 +36,8 @@ public class ServicoTicket
             throw;
         }
     }
-    public void Editar(int id)
+
+    public void Editar(int id, int idFuncionario = 0, int quantidade = 0, char situacao = 'A', DateTime dataCadastro = default)
     {
         try
         {
@@ -49,34 +49,35 @@ public class ServicoTicket
                 throw new Exception("Não foi possível encontrar esse ticket na base de dados, verifique o ID fornecido.");
             }
 
-            Console.WriteLine($"Ticket encontrado: Funcionário {ticket.IdFuncionario} - Quantidade {ticket.Quantidade}");
-            Console.WriteLine("Digite 1 para editar o funcionário do ticket");
-            Console.WriteLine("Digite 2 para editar a quantidade de tickets");
-            Console.WriteLine("Digite 3 para editar a situação do ticket");
-            Console.WriteLine("Digite 4 para cancelar a edição");
-            int opcao = int.Parse(Console.ReadLine());
-
-            switch (opcao)
+            if (idFuncionario != 0)
             {
-                case 1:
-                    ticket.IdFuncionario = int.Parse(maneja.Resposta("Digite o novo id do funcionário:"));
-                    _db.SaveChanges();
-                    break;
-                case 2:
-                    ticket.Quantidade = int.Parse(maneja.Resposta("Digite a nova quantidade de tickets:"));
-                    _db.SaveChanges();
-                    break;
-                case 3:
-                    ticket.Situacao = char.Parse(maneja.Resposta("Digite a nova situação do ticket (A para ativo, I para inativo):"));
-                    _db.SaveChanges();
-                    break;
-                case 4:
-                    Console.WriteLine("Edição cancelada.");
-                    break;
-                default:
-                    Console.WriteLine("Opção inválida, edição cancelada.");
-                    break;
+                ticket.IdFuncionario = idFuncionario;
+                _db.SaveChanges();
             }
+
+            if (quantidade != 0)
+            {
+                ticket.Quantidade = quantidade;
+                _db.SaveChanges();
+            }
+
+            
+            
+                situacao = char.ToUpper(situacao);
+
+                if (situacao == 'A' || situacao == 'I')
+                {
+                    ticket.Situacao = situacao;
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception($"A situação '{situacao}' é inválida, apenas A = Ativo e I = Inativo são aceitos, a situação atual do ticket não foi alterada.");
+                }
+            
+
+            ticket.DataCadastro = dataCadastro;
+            _db.SaveChanges();
         }
         catch (System.Exception)
         {
@@ -84,5 +85,4 @@ public class ServicoTicket
             throw;
         }
     }
-
 }

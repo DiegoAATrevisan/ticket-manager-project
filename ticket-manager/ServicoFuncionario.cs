@@ -7,9 +7,29 @@ public class ServicoFuncionario
         _db = db;
     }
 
+    public List<Funcionario> BuscarFuncionariosPorNome(string nome)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(nome))
+            {
+                return new List<Funcionario>();
+            }
+
+            var termo = nome.Trim().ToUpper();
+
+            return _db.funcionarios
+                .Where(f => f.Nome.Contains(termo))
+                .ToList();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Houve um erro ao buscar os funcionários. Erro: " + ex.Message);
+        }
+    }
+
     public Funcionario BuscarFuncionario(int? id = 0, string nome = "", string cpf = "")
     {
-
         try
         {
             Funcionario funcionario;
@@ -40,7 +60,6 @@ public class ServicoFuncionario
         {
             throw new Exception("Funcionário não encontrado.");
         }
-
     }
 
     public void CadastrarFuncionario(Funcionario funcionario)
@@ -95,7 +114,6 @@ public class ServicoFuncionario
             {
                 throw new Exception($"A situação '" + situacao + "' é inválida, apenas A = Ativo e I = Inativo são aceitos, a situação atual do funcionário não foi alterada.");
             }
-
         }
         catch (Exception ex)
         {

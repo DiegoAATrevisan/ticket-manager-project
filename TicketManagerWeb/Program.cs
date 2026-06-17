@@ -19,6 +19,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddScoped<AppDbContext>();
 builder.Services.AddScoped<ServicoFuncionario>();
 builder.Services.AddScoped<ServicoTicket>();
+builder.Services.AddScoped<ServicoRelatorio>();
 
 var app = builder.Build();
 

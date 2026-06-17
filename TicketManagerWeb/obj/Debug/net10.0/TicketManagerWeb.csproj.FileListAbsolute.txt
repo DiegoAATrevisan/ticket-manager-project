@@ -96,5 +96,5 @@ H:\GitHub\ticket-manager-project\TicketManagerWeb\bin\Debug\net10.0\TicketManage
 H:\GitHub\ticket-manager-project\TicketManagerWeb\obj\Debug\net10.0\TicketMa.183478FC.Up2Date
 H:\GitHub\ticket-manager-project\TicketManagerWeb\obj\Debug\net10.0\TicketManagerWeb.genruntimeconfig.cache
 H:\GitHub\ticket-manager-project\TicketManagerWeb\obj\Debug\net10.0\ref\TicketManagerWeb.dll
-H:\GitHub\ticket-manager-project\TicketManagerWeb\obj\Debug\net10.0\compressed\mow2ozni6v-{0}-rdfv6mear2-rdfv6mear2.gz
-H:\GitHub\ticket-manager-project\TicketManagerWeb\obj\Debug\net10.0\compressed\a5pg3b5pse-{0}-rdfv6mear2-rdfv6mear2.gz
+H:\GitHub\ticket-manager-project\TicketManagerWeb\obj\Debug\net10.0\compressed\mow2ozni6v-{0}-f3gyqo8lfi-f3gyqo8lfi.gz
+H:\GitHub\ticket-manager-project\TicketManagerWeb\obj\Debug\net10.0\compressed\a5pg3b5pse-{0}-f3gyqo8lfi-f3gyqo8lfi.gz

@@ -24,6 +24,7 @@
                 <th>Id Funcionário</th>
                 <th>Quantidade</th>
                 <th>Situação</th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -34,16 +35,37 @@
                     <td>@ticket.IdFuncionario</td>
                     <td>@ticket.Quantidade</td>
                     <td>@ticket.Situacao</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" @onclick="() => PrepararEdicao(ticket)">Editar</button>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 }
 
+@if (TicketEditando is not null)
+{
+    <div class="mb-4">
+        <h5>Editar ticket</h5>
+        <input class="form-control mb-2" type="number" placeholder="Id do funcionário" @bind="IdFuncionarioEdicao" />
+        <input class="form-control mb-2" type="number" placeholder="Quantidade" @bind="QuantidadeEdicao" />
+        <input class="form-control mb-2" maxlength="1" placeholder="Situação" @bind="SituacaoEdicao" />
+
+        <button class="btn btn-success" @onclick="SalvarEdicaoAsync">Salvar edição</button>
+    </div>
+}
+
 @code {
     private int IdFuncionarioBusca;
     private string Mensagem = string.Empty;
     private List<Ticket> tickets = new List<Ticket>();
+
+    private Ticket? TicketEditando;
+    private int IdFuncionarioEdicao;
+    private int QuantidadeEdicao;
+    private char SituacaoEdicao = 'A';
+
     private Task CarregarTicketsAsync()
     {
         try
@@ -58,6 +80,48 @@
         {
             Mensagem = $"Erro ao buscar ticket(s): {ex.Message}";
             tickets.Clear();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private void PrepararEdicao(Ticket ticket)
+    {
+        TicketEditando = ticket;
+        IdFuncionarioEdicao = ticket.IdFuncionario;
+        QuantidadeEdicao = ticket.Quantidade;
+        SituacaoEdicao = ticket.Situacao;
+        Mensagem = $"Ticket {ticket.Id} carregado para edição.";
+    }
+
+    private Task SalvarEdicaoAsync()
+    {
+        try
+        {
+            if (TicketEditando is null)
+            {
+                Mensagem = "Nenhum ticket carregado.";
+                return Task.CompletedTask;
+            }
+
+            var dataCadastroAtual = DateTime.Now;
+
+            ServicoTicketService.Editar(
+                TicketEditando.Id,
+                IdFuncionarioEdicao,
+                QuantidadeEdicao,
+                SituacaoEdicao,
+                dataCadastroAtual
+            );
+
+            Mensagem = $"Ticket atualizado em {dataCadastroAtual:dd/MM/yyyy HH:mm:ss}.";
+            TicketEditando = null;
+
+            return CarregarTicketsAsync();
+        }
+        catch (Exception ex)
+        {
+            Mensagem = $"Erro ao editar ticket: {ex.Message}";
         }
 
         return Task.CompletedTask;

@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 public class ServicoFuncionario
 {
     ManejaQuestao maneja = new ManejaQuestao();
@@ -8,29 +10,59 @@ public class ServicoFuncionario
         _db = db;
     }
 
-    public Funcionario BuscarFuncionario(int id)
+    public Funcionario BuscarFuncionario(int? id = 0, string nome = "", string cpf = "")
     {
-        Funcionario funcionario = _db.funcionarios.Find(id);
-        return funcionario;
+
+        try
+        {
+            Funcionario funcionario;
+            if (id != null && id != 0)
+            {
+                Console.WriteLine("id:: " + id);
+                funcionario = _db.funcionarios.Find(id);
+                return funcionario;
+            }
+
+            if (nome != "")
+            {
+                Console.WriteLine("Nome:: " + nome);
+                funcionario = _db.funcionarios.FirstOrDefault(f => f.Nome == nome.ToUpper());
+                return funcionario;
+            }
+
+            if (cpf != "")
+            {
+                Console.WriteLine("cpf:: " + cpf);
+                funcionario = _db.funcionarios.FirstOrDefault(f => f.Cpf == cpf.ToUpper());
+                return funcionario;
+            }
+
+            return null;
+        }
+        catch (System.Exception)
+        {
+            throw new Exception("Funcionário não encontrado.");
+        }
+
     }
 
     public void CadastrarFuncionario(Funcionario funcionario)
     {
         try
         {
-            funcionario.Nome = funcionario.Nome.Replace("\0", string.Empty);
-            funcionario.Cpf = funcionario.Cpf.Replace("\0", string.Empty);
+            funcionario.Nome = funcionario.Nome.ToUpper();
+            funcionario.Cpf = funcionario.Cpf.ToUpper();
             _db.funcionarios.Add(funcionario);
             _db.SaveChanges();
         }
         catch (System.Exception)
         {
             Console.WriteLine("Houve um erro inesperado ao cadastrar o funcionário. ServicoFuncionario");
-            throw;
+            throw new Exception("Houve um erro inesperado ao cadastrar o funcionário.");
         }
     }
 
-    public void Editar(int id)
+    public void Editar(int id, String nome = "", String cpf = "", char situacao = 'A')
     {
         try
         {
@@ -39,42 +71,34 @@ public class ServicoFuncionario
             if (funcionario == null)
             {
                 Console.WriteLine("Funcionário não encontrado");
-                throw new Exception("Não foi possivel encontrar esse usuario na base de dados, verifique o ID forncido.");
+                throw new Exception("Não foi possivel encontrar esse usuario na base de dados, verifique o ID fornecido.");
             }
 
-            Console.WriteLine($"Funcionário encontrado: {funcionario.Nome} - {funcionario.Cpf}");
-            Console.WriteLine("Digite 1 para editar o nome do funcionário");
-            Console.WriteLine("Digite 2 para editar o CPF do funcionário");
-            Console.WriteLine("Digite 3 para editar a situação do funcionário");
-            Console.WriteLine("Digite 4 para cancelar a edição");
-            int opcao = int.Parse(Console.ReadLine());
-
-            switch (opcao)
+            if (nome != "")
             {
-                case 1:
-                    funcionario.Nome = maneja.Resposta("Digite o novo nome do funcionário:");
-                    _db.SaveChanges();
-                    break;
-                case 2:
-                    funcionario.Nome = maneja.Resposta("Digite o novo CPF do funcionário:");
-                    _db.SaveChanges();
-                    break;
-                case 3:
-                    funcionario.Situacao = Char.Parse(maneja.Resposta("Digite a nova situação do funcionário (A para ativo, I para inativo):"));
-                    _db.SaveChanges();
-                    break;
-                case 4:
-                    Console.WriteLine("Edição cancelada.");
-                    break;
-                default:
-                    Console.WriteLine("Opção inválida, edição cancelada.");
-                    break;
+                funcionario.Nome = nome.ToUpper();
+                _db.SaveChanges();
+            }
+            if (cpf != "")
+            {
+                funcionario.Cpf = cpf.ToUpper();
+                _db.SaveChanges();
+            }
+            situacao = char.ToUpper(situacao);
+            if (situacao == 'A' || situacao == 'I')
+            {
+                funcionario.Situacao = situacao;
+                _db.SaveChanges();
+            }
+            else
+            {
+                throw new Exception($"A situação '" + situacao + "' é inválida, apenas A = Ativo e I = Inativo são aceitos, a situação atual do funcionário não foi alterada.");
             }
 
         }
         catch (System.Exception)
         {
-            Console.WriteLine("Ouve um erro inesperado ao editar o funcionário");
+            Console.WriteLine("Ouve um erro ao editar o funcionário");
             throw;
         }
     }

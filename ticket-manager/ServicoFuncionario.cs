@@ -1,8 +1,5 @@
-using System.Runtime.CompilerServices;
-
 public class ServicoFuncionario
 {
-    ManejaQuestao maneja = new ManejaQuestao();
     private readonly AppDbContext _db;
 
     public ServicoFuncionario(AppDbContext db)
@@ -50,15 +47,19 @@ public class ServicoFuncionario
     {
         try
         {
+            Funcionario consulta = _db.funcionarios.FirstOrDefault(f => f.Cpf == funcionario.Cpf);
+            if (consulta != null)
+            {
+                throw new Exception("Esse CPF já se encontra na base de dados.");
+            }
             funcionario.Nome = funcionario.Nome.ToUpper();
             funcionario.Cpf = funcionario.Cpf.ToUpper();
             _db.funcionarios.Add(funcionario);
             _db.SaveChanges();
         }
-        catch (System.Exception)
+        catch (Exception ex)
         {
-            Console.WriteLine("Houve um erro inesperado ao cadastrar o funcionário. ServicoFuncionario");
-            throw new Exception("Houve um erro inesperado ao cadastrar o funcionário.");
+            throw new Exception("Houve um erro ao cadastrar o funcionário. Erro: " + ex.Message);
         }
     }
 
@@ -96,10 +97,9 @@ public class ServicoFuncionario
             }
 
         }
-        catch (System.Exception)
+        catch (Exception ex)
         {
-            Console.WriteLine("Ouve um erro ao editar o funcionário");
-            throw;
+            throw new Exception("Houve um erro ao editar o funcionário. Erro: " + ex.Message);
         }
     }
 }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TicketManagerWeb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+480fc0d2812e1981cb0b65d8ef6aaa13ae602ec9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+94d11160ed5e0f11714c1ca30ab940abab664bb2")]
 [assembly: System.Reflection.AssemblyProductAttribute("TicketManagerWeb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TicketManagerWeb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

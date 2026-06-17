@@ -325,8 +325,8 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "h:\\GitHub\\ticket-manager-project\\ticket-manager\\ticket-manager.csproj": {
-              "projectPath": "h:\\GitHub\\ticket-manager-project\\ticket-manager\\ticket-manager.csproj"
+            "H:\\GitHub\\ticket-manager-project\\ticket-manager\\ticket-manager.csproj": {
+              "projectPath": "H:\\GitHub\\ticket-manager-project\\ticket-manager\\ticket-manager.csproj"
             }
           }
         }

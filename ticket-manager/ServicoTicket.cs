@@ -1,7 +1,6 @@
 public class ServicoTicket
 {
     ManejaQuestao maneja = new ManejaQuestao();
-
     private readonly AppDbContext _db;
 
     public ServicoTicket(AppDbContext db)
@@ -9,27 +8,26 @@ public class ServicoTicket
         _db = db;
     }
 
-    public List<Ticket> BuscarListaTickets(int idFuncionario)
-    {
-        return _db.tickets
-            .Where(t => t.IdFuncionario == idFuncionario)
-            .ToList();
-    }
-
-    public Ticket BuscarTicket(int id)
-    {
-        Ticket ticket = _db.tickets.Find(id);
-        return ticket;
-    }
-
-    public async Task CadastrarTicket(Ticket ticket)
+    public async Task CadastrarTicket(Ticket ticket, string cpfFuncionario)
     {
         try
         {
+            var cpf = cpfFuncionario?.ToUpper().Trim();
+
+            var funcionario = _db.funcionarios
+                .FirstOrDefault(f => f.Cpf == cpf);
+
+            if (funcionario == null)
+                throw new Exception("Funcionário não encontrado para o CPF informado.");
+
+            ticket.IdFuncionario = funcionario.Id;
+            ticket.DataCadastro = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
+            ticket.Situacao = 'A';
+
             _db.tickets.Add(ticket);
             await _db.SaveChangesAsync();
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Console.WriteLine("Houve um erro inesperado ao cadastrar o ticket");
             Console.WriteLine("Mensagem de erro: " + ex.Message);
@@ -37,52 +35,64 @@ public class ServicoTicket
         }
     }
 
-    public void Editar(int id, int idFuncionario = 0, int quantidade = 0, char situacao = 'A', DateTime dataCadastro = default)
+    public void Editar(int id, int quantidade = 0, string cpfFuncionario = "")
     {
         try
         {
             Ticket ticket = _db.tickets.Find(id);
 
             if (ticket == null)
-            {
-                Console.WriteLine("Ticket não encontrado");
                 throw new Exception("Não foi possível encontrar esse ticket na base de dados, verifique o ID fornecido.");
-            }
-
-            if (idFuncionario != 0)
-            {
-                ticket.IdFuncionario = idFuncionario;
-                _db.SaveChanges();
-            }
 
             if (quantidade != 0)
             {
                 ticket.Quantidade = quantidade;
-                _db.SaveChanges();
             }
 
-            
-            
-                situacao = char.ToUpper(situacao);
+            if (!string.IsNullOrWhiteSpace(cpfFuncionario))
+            {
+                var cpf = cpfFuncionario.ToUpper().Trim();
 
-                if (situacao == 'A' || situacao == 'I')
-                {
-                    ticket.Situacao = situacao;
-                    _db.SaveChanges();
-                }
-                else
-                {
-                    throw new Exception($"A situação '{situacao}' é inválida, apenas A = Ativo e I = Inativo são aceitos, a situação atual do ticket não foi alterada.");
-                }
-            
+                Funcionario funcionario = _db.funcionarios
+                    .FirstOrDefault(f => f.Cpf == cpf);
 
-            ticket.DataCadastro = dataCadastro;
+                if (funcionario == null)
+                    throw new Exception("Funcionário não encontrado para o CPF informado.");
+
+                ticket.IdFuncionario = funcionario.Id;
+            }
+
+            ticket.DataCadastro = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
+
             _db.SaveChanges();
         }
-        catch (System.Exception)
+        catch (Exception)
         {
             Console.WriteLine("Houve um erro inesperado ao editar o ticket");
             throw;
+        }
+    }
+
+    public List<Ticket> BuscarListaTicketsPorCpf(string cpf)
+    {
+        try
+        {
+            string cpfNormalizado = cpf?.ToUpper().Trim();
+
+            Funcionario funcionario = _db.funcionarios
+                .FirstOrDefault(f => f.Cpf == cpfNormalizado);
+
+            if (funcionario == null)
+                return new List<Ticket>();
+
+            return _db.tickets
+                .Where(t => t.IdFuncionario == funcionario.Id)
+                .ToList();
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Houve um erro inesperado ao buscar os tickets pelo CPF");
+            throw new Exception("Houve um erro inesperado ao buscar os tickets pelo CPF.");
         }
     }
 }

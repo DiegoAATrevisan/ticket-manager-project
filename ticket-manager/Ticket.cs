@@ -1,10 +1,5 @@
-using System.Data.Common;
-
 public class Ticket
 {
-    ManejaQuestao maneja = new ManejaQuestao();
-    static AppDbContext db = new AppDbContext();
-
     public int Id { get; set; }
     public int IdFuncionario { get; set; }
     public int Quantidade { get; set; }

@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "h:\\GitHub\\ticket-manager-project\\TicketManagerWeb\\TicketManagerWeb.csproj": {}
+    "H:\\GitHub\\ticket-manager-project\\TicketManagerWeb\\TicketManagerWeb.csproj": {}
   },
   "projects": {
     "h:\\GitHub\\ticket-manager-project\\ticket-manager\\ticket-manager.csproj": {
@@ -57,6 +57,10 @@
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
+              "target": "Package",
+              "version": "[10.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
               "target": "Package",
               "version": "[10.0.9, )"
             },
@@ -363,14 +367,14 @@
         }
       }
     },
-    "h:\\GitHub\\ticket-manager-project\\TicketManagerWeb\\TicketManagerWeb.csproj": {
+    "H:\\GitHub\\ticket-manager-project\\TicketManagerWeb\\TicketManagerWeb.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "h:\\GitHub\\ticket-manager-project\\TicketManagerWeb\\TicketManagerWeb.csproj",
+        "projectUniqueName": "H:\\GitHub\\ticket-manager-project\\TicketManagerWeb\\TicketManagerWeb.csproj",
         "projectName": "TicketManagerWeb",
-        "projectPath": "h:\\GitHub\\ticket-manager-project\\TicketManagerWeb\\TicketManagerWeb.csproj",
+        "projectPath": "H:\\GitHub\\ticket-manager-project\\TicketManagerWeb\\TicketManagerWeb.csproj",
         "packagesPath": "C:\\Users\\Diego\\.nuget\\packages\\",
-        "outputPath": "h:\\GitHub\\ticket-manager-project\\TicketManagerWeb\\obj\\",
+        "outputPath": "H:\\GitHub\\ticket-manager-project\\TicketManagerWeb\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Diego\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -414,6 +418,10 @@
               "target": "Package",
               "version": "[10.0.9, )",
               "autoReferenced": true
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[10.0.9, )"
             }
           },
           "imports": [

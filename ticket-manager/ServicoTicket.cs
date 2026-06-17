@@ -10,13 +10,20 @@ public class ServicoTicket
         _db = db;
     }
 
-    public Tickets BuscarTicket(int id)
+    public List<Ticket> BuscarListaTickets(int idFuncionario)
     {
-        Tickets ticket = _db.tickets.Find(id);
+        return _db.tickets
+            .Where(t => t.IdFuncionario == idFuncionario)
+            .ToList();
+    }
+
+    public Ticket BuscarTicket(int id)
+    {
+        Ticket ticket = _db.tickets.Find(id);
         return ticket;
     }
 
-    public async Task CadastrarTicket(Tickets ticket)
+    public async Task CadastrarTicket(Ticket ticket)
     {
         try
         {
@@ -34,7 +41,7 @@ public class ServicoTicket
     {
         try
         {
-            Tickets ticket = _db.tickets.Find(id);
+            Ticket ticket = _db.tickets.Find(id);
 
             if (ticket == null)
             {

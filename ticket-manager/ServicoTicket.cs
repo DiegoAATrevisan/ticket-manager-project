@@ -1,6 +1,5 @@
 public class ServicoTicket
 {
-    ManejaQuestao maneja = new ManejaQuestao();
     private readonly AppDbContext _db;
 
     public ServicoTicket(AppDbContext db)
@@ -29,9 +28,7 @@ public class ServicoTicket
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Houve um erro inesperado ao cadastrar o ticket");
-            Console.WriteLine("Mensagem de erro: " + ex.Message);
-            throw;
+            throw new Exception("Houve um erro ao cadastrar o ticket. Erro: " + ex.Message);
         }
     }
 
@@ -42,7 +39,7 @@ public class ServicoTicket
             Ticket ticket = _db.tickets.Find(id);
 
             if (ticket == null)
-                throw new Exception("Não foi possível encontrar esse ticket na base de dados, verifique o ID fornecido.");
+                throw new Exception("Não foi possível encontrar esse ticket na base de dados, verifique as informações fornecidas.");
 
             if (quantidade != 0)
             {
@@ -66,9 +63,9 @@ public class ServicoTicket
 
             _db.SaveChanges();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            Console.WriteLine("Houve um erro inesperado ao editar o ticket");
+            throw new Exception("Houve um erro ao editar o ticket. Erro: " + ex.Message);
             throw;
         }
     }
@@ -91,8 +88,7 @@ public class ServicoTicket
         }
         catch (Exception)
         {
-            Console.WriteLine("Houve um erro inesperado ao buscar os tickets pelo CPF");
-            throw new Exception("Houve um erro inesperado ao buscar os tickets pelo CPF.");
+            throw new Exception("Houve um erro ao buscar os tickets.");
         }
     }
 }
